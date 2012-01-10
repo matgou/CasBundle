@@ -51,5 +51,14 @@ class GorgAuthentificatorController extends ContainerAware
             ->info($message)
         ;
     }
+
+    /**
+     * Return a config parameters
+     * @param $name parmeter's name
+     */
+    public function getParameter($name)
+    {
+	return $this->container->getParameter($name);
+    }
 }
 /* vim:set et sw=4 sts=4 ts=4: */

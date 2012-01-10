@@ -19,10 +19,14 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('gorg_authentificator');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+	$rootNode
+            ->children()
+                ->scalarNode('cas_server')->end()
+		->scalarNode('cas_port')->end()
+		->scalarNode('cas_path')->end()
+                ->scalarNode('ca_cert')->end()
+            ->end();
+        ;
 
         return $treeBuilder;
     }

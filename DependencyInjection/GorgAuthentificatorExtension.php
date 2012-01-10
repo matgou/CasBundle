@@ -1,6 +1,7 @@
 <?php
 
 namespace Gorg\Bundle\AuthentificatorBundle\DependencyInjection;
+use Symfony\Component\Config\Definition\Processor;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -19,8 +20,12 @@ class GorgAuthentificatorExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $processor = new Processor();
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $parameters = $processor->processConfiguration(new Configuration($container->getParameter('kernel.debug')), $configs);
+	foreach ($parameters as $id => $parameter) {
+            $container->setParameter(sprintf('gorg_authentificator.%s', $id), $parameter);
+        }
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');

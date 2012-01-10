@@ -32,7 +32,13 @@ class CASAuthentificatorController extends GorgAuthentificatorController
     public function loginAction(Request $request)
     {
 	require_once(dirname(__FILE__) . '/../lib/cas/CAS.php');
-        \phpCAS::client(SAML_VERSION_1_1, 'auth.gadz.org', 443, '/cas/', false);
+        $cas_server = $this->getParameter('gorg_authentificator.cas_server');
+        $cas_port   = $this->getParameter('gorg_authentificator.cas_port');
+        $cas_path   = $this->getParameter('gorg_authentificator.cas_path');
+	$ca_cert    = $this->getParameter('gorg_authentificator.ca_cert');
+        \phpCAS::client(SAML_VERSION_1_1, $cas_server, $cas_port, $cas_path, false);
+	
+	\phpCAS::setCasServerCACert($ca_cert);
         \phpCAS::forceAuthentication();
 	return $this->render('GorgAuthentificatorBundle:CASAuthentificator:login.html.twig', array());
     }
