@@ -10,11 +10,18 @@ This file will help you to install and configure the project.
 
 ### a) Parameters Symfony sandbox for use Gorg authentication
 
-First to install the bundle add the following line to your app/config/config.yml file:
+Please edit app/config/security.yml file to update symfony security policy
 
-    gorg_authentificator:
-        cas_server: "auth.gadz.org"
-        cas_port: 443
-        cas_path: "/cas/"
-        ca_cert: "/home/kapable/ssl/gadz.org.crt"
-
+	security:
+	    factories:
+	        - "%kernel.root_dir%/../src/Gorg/Bundle/AuthentificatorBundle/Resources/config/security_factories.xml"
+	
+	# ...
+	    firewalls:
+	        dev:
+	            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+	            security: false
+	
+	        secured_area:
+	            pattern:    ^/demo/secured/
+	            gorg:       true
