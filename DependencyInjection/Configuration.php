@@ -19,14 +19,6 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('gorg_authentificator');
-	$rootNode
-            ->children()
-                ->scalarNode('cas_server')->end()
-		->scalarNode('cas_port')->end()
-		->scalarNode('cas_path')->end()
-                ->scalarNode('ca_cert')->end()
-            ->end();
-        ;
 
         return $treeBuilder;
     }

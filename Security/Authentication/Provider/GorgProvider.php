@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Token\GorgUserToken;
-
+use Gorg\Bundle\AuthentificatorBundle\Entity\GorgCasUser;
 class GorgProvider implements AuthenticationProviderInterface
 {
     private $userProvider;
@@ -41,35 +41,12 @@ class GorgProvider implements AuthenticationProviderInterface
 
     public function authenticate(TokenInterface $token)
     {
-        $user = $this->userProvider->loadUserByUsername($token->getUsername());
-
-        if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
-            $authenticatedToken = new WsseUserToken($user->getRoles());
-            $authenticatedToken->setUser($user);
-
-            return $authenticatedToken;
-        }
-
-        throw new AuthenticationException('The WSSE authentication failed.');
-    }
-
-    protected function validateDigest($digest, $nonce, $created, $secret)
-    {
-        // Expire timestamp after 5 minutes
-        if (time() - strtotime($created) > 300) {
-            return false;
-        }
-
-        // Validate nonce is unique within 5 minutes
-        if (file_exists($this->cacheDir.'/'.$nonce) && file_get_contents($this->cacheDir.'/'.$nonce) + 300 < time()) {
-            throw new NonceExpiredException('Previously used nonce detected');
-        }
-        file_put_contents($this->cacheDir.'/'.$nonce, time());
-
-        // Validate Secret
-        $expected = base64_encode(sha1(base64_decode($nonce).$created.$secret, true));
-
-        return $digest === $expected;
+        $user = new GorgCasUser();
+        $user->setHruid($token->getUsername());
+        $authenticatedToken = new GorgUserToken($user->getRoles());
+        $authenticatedToken->setUser($user);
+	$authenticatedToken->setAuthenticated(true);
+        return $authenticatedToken;
     }
 
     public function supports(TokenInterface $token)

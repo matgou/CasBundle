@@ -1,4 +1,4 @@
-<?
+<?php
 /***************************************************************************
  * Copyright (C) 1999-2011 Gadz.org                                        *
  * http://opensource.gadz.org/                                             *
@@ -19,16 +19,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   *
  ***************************************************************************/
 
-namespace Acme\DemoBundle\Security\Authentication\Token;
+namespace Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Token;
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class GorgUserToken extends AbstractToken
 {
-    public $created;
-    public $digest;
-    public $nonce;
-
     public function getCredentials()
     {
         return '';

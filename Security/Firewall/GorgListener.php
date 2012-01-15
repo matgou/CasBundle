@@ -34,9 +34,18 @@ class GorgListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
+    private   $cas_server;
+    private   $cas_port;
+    private   $cas_path;
+    private   $ca_cert;
 
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager)
+    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager,
+				$cas_server, $cas_port, $cas_path, $ca_cert)
     {
+        $this->cas_server = $cas_server;
+        $this->cas_port   = $cas_port;
+        $this->cas_path   = $cas_path;
+        $this->ca_cert    = $ca_cert;
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
     }
@@ -44,34 +53,30 @@ class GorgListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
+        require_once(dirname(__FILE__) . '/../../lib/cas/CAS.php');
+        \phpCAS::client(SAML_VERSION_1_1, $this->cas_server, $this->cas_port, $this->cas_path, false);
 
-        if (!$request->headers->has('x-wsse')) {
+        \phpCAS::setCasServerCACert($this->ca_cert);
+        \phpCAS::forceAuthentication();
+	$attributes = \phpCAS::getAttributes();
+
+        if (!$attributes['username']) {
             return;
         }
 
-        $wsseRegex = '/UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Nonce="([^"]+)", Created="([^"]+)"/';
-
-        if (preg_match($wsseRegex, $request->headers->get('x-wsse'), $matches)) {
-            $token = new WsseUserToken();
-            $token->setUser($matches[1]);
-
-            $token->digest   = $matches[2];
-            $token->nonce    = $matches[3];
-            $token->created  = $matches[4];
-
-            try {
-                $returnValue = $this->authenticationManager->authenticate($token);
-
-                if ($returnValue instanceof TokenInterface) {
-                    return $this->securityContext->setToken($returnValue);
-                } else if ($returnValue instanceof Response) {
-                    return $event->setResponse($returnValue);
-                }
-            } catch (AuthenticationException $e) {
-                // you might log something here
+        $token = new GorgUserToken();
+        $token->setUser($attributes['username']);
+        try {
+            $returnValue = $this->authenticationManager->authenticate($token);
+            if ($returnValue instanceof TokenInterface) {
+                return $this->securityContext->setToken($returnValue);
+            } else if ($returnValue instanceof Response) {
+                return $event->setResponse($returnValue);
             }
+        } catch (AuthenticationException $e) {
+                // you might log something here
         }
-
+        
         $response = new Response();
         $response->setStatusCode(403);
         $event->setResponse($response);

@@ -1,4 +1,4 @@
-<?
+<?php
 /***************************************************************************
  * Copyright (C) 1999-2012 Gadz.org                                        *
  * http://opensource.gadz.org/                                             *
@@ -19,18 +19,26 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   *
  ***************************************************************************/
 
-namespace Gorg\Bundle\AuthentificatorBundle;
+namespace Gorg\Bundle\AuthentificatorBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * GorgCasUser a class representing a User 
+ * @ORM\Table()
+ * @ORM\Entity()
  */
 class GorgCasUser implements \Serializable, UserInterface
 {
 
     /**
      * Uniq string to identify a user
+     * @ORM\Column(name = "hruid", type = "string", length = 255, nullable = false, unique = true)
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
      */
     private $hruid = null;
 
@@ -76,5 +84,38 @@ class GorgCasUser implements \Serializable, UserInterface
     {
         return (strcmp($user->getUsername(), $this->getUsername())==0);
     }
+    
+    // TODO
+    public function serialize() 
+    {
+    }
+
+    public function unserialize($serialized)
+    {
+    }
+
+    public function getRoles()
+    {
+	return array('ROLE_ADMIN','ROLE_USER');
+    }
+
+    /**
+     * Set hruid
+     *
+     * @param string $hruid
+     */
+    public function setHruid($hruid)
+    {
+        $this->hruid = $hruid;
+    }
+
+    /**
+     * Get hruid
+     *
+     * @return string 
+     */
+    public function getHruid()
+    {
+        return $this->hruid;
+    }
 }
-/* vim:set et sw=4 sts=4 ts=4: */

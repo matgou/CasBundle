@@ -4,7 +4,8 @@
 
     <services>
         <service id="security.authentication.factory.gorg"
-          class="Gorg\Bundle\AuthentificatorBundle\DependencyInjection\Security\Factory\GorgFactory" public="false">
+                 class="Gorg\Bundle\AuthentificatorBundle\DependencyInjection\Security\Factory\GorgFactory" 
+                 public="false">
             <tag name="security.listener.factory" />
         </service>
     </services>

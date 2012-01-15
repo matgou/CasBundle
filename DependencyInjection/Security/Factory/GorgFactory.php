@@ -39,7 +39,6 @@ class GorgFactory implements SecurityFactoryInterface
 
         $listenerId = 'security.authentication.listener.gorg.'.$id;
         $listener = $container->setDefinition($listenerId, new DefinitionDecorator('gorg.security.authentication.listener'));
-
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
 
