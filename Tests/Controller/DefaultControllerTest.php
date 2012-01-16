@@ -1,6 +1,6 @@
 <?php
 
-namespace Gorg\Bundle\AuthentificatorBundle\Tests\Controller;
+namespace Gorg\Bundle\CasBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

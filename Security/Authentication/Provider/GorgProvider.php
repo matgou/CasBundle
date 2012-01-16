@@ -19,15 +19,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   *
  ***************************************************************************/
 
-namespace Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Provider;
+namespace Gorg\Bundle\CasBundle\Security\Authentication\Provider;
 
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Token\GorgUserToken;
-use Gorg\Bundle\AuthentificatorBundle\Entity\GorgCasUser;
+use Gorg\Bundle\CasBundle\Security\Authentication\Token\GorgUserToken;
+use Gorg\Bundle\CasBundle\Entity\GorgCasUser;
 class GorgProvider implements AuthenticationProviderInterface
 {
     private $userProvider;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gorg\Bundle\AuthentificatorBundle\DependencyInjection;
+namespace Gorg\Bundle\CasBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

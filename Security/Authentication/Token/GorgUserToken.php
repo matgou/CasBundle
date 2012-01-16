@@ -19,7 +19,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   *
  ***************************************************************************/
 
-namespace Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Token;
+namespace Gorg\Bundle\CasBundle\Security\Authentication\Token;
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 

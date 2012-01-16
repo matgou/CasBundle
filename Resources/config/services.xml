@@ -13,13 +13,13 @@
 
    <services>
        <service id="gorg.security.authentication.provider"
-         class="Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Provider\GorgProvider" public="false">
+         class="Gorg\Bundle\CasBundle\Security\Authentication\Provider\GorgProvider" public="false">
            <argument type="service" id="security.authentication.provider" />
            <argument>%kernel.cache_dir%/security/nonces</argument>
        </service>
 
        <service id="gorg.security.authentication.listener"
-         class="Gorg\Bundle\AuthentificatorBundle\Security\Firewall\GorgListener" public="false">
+         class="Gorg\Bundle\CasBundle\Security\Firewall\GorgListener" public="false">
            <argument type="service" id="security.context"/>
            <argument type="service" id="security.authentication.manager" />
            <argument>%cas_server%</argument>

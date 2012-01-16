@@ -19,7 +19,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   *
  ***************************************************************************/
 
-namespace Gorg\Bundle\AuthentificatorBundle\Security\Firewall;
+namespace Gorg\Bundle\CasBundle\Security\Firewall;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Gorg\Bundle\AuthentificatorBundle\Security\Authentication\Token\GorgUserToken;
+use Gorg\Bundle\CasBundle\Security\Authentication\Token\GorgUserToken;
 
 class GorgListener implements ListenerInterface
 {

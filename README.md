@@ -14,7 +14,7 @@ Please edit app/config/security.yml file to update symfony security policy
 
 	security:
 	    factories:
-	        - "%kernel.root_dir%/../src/Gorg/Bundle/AuthentificatorBundle/Resources/config/security_factories.xml"
+	        - "%kernel.root_dir%/../src/Gorg/Bundle/CasBundle/Resources/config/security_factories.xml"
 	
 	# ...
 	    firewalls:
