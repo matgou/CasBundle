@@ -37,10 +37,16 @@ class GorgCasUser implements \Serializable, UserInterface
     /**
      * Uniq string to identify a user
      * @ORM\Column(name = "hruid", type = "string", length = 255, nullable = false, unique = true)
+     * @ORM\Id
      * @Assert\NotNull()
      * @Assert\NotBlank()
      */
     private $hruid = null;
+
+    /**
+     * Array to contains data of user
+     */
+    private $data = array();
 
     /**
      * return null (no password for cas)
@@ -85,15 +91,33 @@ class GorgCasUser implements \Serializable, UserInterface
         return (strcmp($user->getUsername(), $this->getUsername())==0);
     }
     
-    // TODO
+    /**
+     * Serializing CasUser
+     * @param string $serialized
+     */
     public function serialize() 
     {
+	$classData = array(
+		'hruid' => $this->hruid,
+		'data' => $this->data,
+	);
+	return serialize($classData);
     }
 
+    /**
+     * Unserializing CasUser
+     * @param string $serialized
+     */
     public function unserialize($serialized)
     {
+	$classData = unserialize($serialized);
+	$this->data = $classData['data'];
+	$this->hruid = $classData['hruid'];
     }
 
+    /**
+     * Return user role
+     */
     public function getRoles()
     {
 	return array('ROLE_ADMIN','ROLE_USER');
@@ -110,12 +134,50 @@ class GorgCasUser implements \Serializable, UserInterface
     }
 
     /**
-     * Get hruid
-     *
-     * @return string 
+     * Set a variable
+     * @param string $name
+     * @param $value
      */
-    public function getHruid()
+    public function set($name, $value)
     {
-        return $this->hruid;
+	$this->data[$name] = $value;
+    }
+
+    /**
+     * Overide all Getter 
+     * @param $name 
+     */
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
+
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        }
+        return null;
+    }
+
+    /**
+     * return true if variable exist
+     * @param $name
+     */
+    public function __isset($name)
+    {
+        return property_exists($this, $name) || isset($this->data[$name]);
+    }
+
+    /**
+     * Destroy variable 
+     * @param $name
+     */
+    public function __unset($name)
+    {
+        if (property_exists($this, $name)) {
+           $this->$name = null;
+        } else {
+           unset($this->data[$name]);
+        }
     }
 }
