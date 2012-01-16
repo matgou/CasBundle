@@ -49,7 +49,7 @@ class GorgCasUserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers GorgCasUser::serialize()
+     * @covers Gorg\Bundle\CasBundle\Entity\GorgCasUser::serialize
      */
     public function testSerialize()
     {	
@@ -58,7 +58,7 @@ class GorgCasUserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers GorgCasUser::unserialize()
+     * @covers Gorg\Bundle\CasBundle\Entity\GorgCasUser::unserialize
      */
     public function testGetCreationTime()
     {
@@ -67,7 +67,7 @@ class GorgCasUserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers GorgCasUser::getUsername()
+     * @covers Gorg\Bundle\CasBundle\Entity\GorgCasUser::getUsername
      */
     public function testGetUsername()
     {
@@ -75,7 +75,7 @@ class GorgCasUserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers GorgCasUser::equals()
+     * @covers Gorg\Bundle\CasBundle\Entity\GorgCasUser::equals
      */
     public function testEquals()
     {
