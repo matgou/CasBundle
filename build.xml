@@ -62,6 +62,13 @@
                        --coverage-html ${basedir}/build/coverage " />
         </exec>
     </target>
+
+    <target name="documentation">
+        <exec dir="${basedir}" executable="doxygen" failonerror="true">
+            <arg line="${basedir}/doxygen.config" />
+        </exec>
+
+    </target>
  
     <target name="parallel">
         <parallel>
@@ -72,5 +79,5 @@
         </parallel>
     </target>
  
-    <target name="build" depends="clean,prepare,parallel,phpunit,phpcb" />
+    <target name="build" depends="clean,prepare,parallel,phpunit,phpcb,documentation" />
 </project>
