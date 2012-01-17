@@ -65,9 +65,7 @@
 
     <target name="documentation">
         <exec dir="${basedir}" executable="doxygen" failonerror="true">
-            <arg line="${basedir}/doxygen.config" />
         </exec>
-
     </target>
  
     <target name="parallel">
