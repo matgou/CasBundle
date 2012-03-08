@@ -41,12 +41,15 @@ class GorgProvider implements AuthenticationProviderInterface
 
     public function authenticate(TokenInterface $token)
     {
-        $user = new GorgCasUser();
-        $user->setHruid($token->getUsername());
-        $authenticatedToken = new GorgUserToken($user->getRoles());
-        $authenticatedToken->setUser($user);
-	$authenticatedToken->setAuthenticated(true);
-        return $authenticatedToken;
+        $user = $this->userProvider->loadUserByUsername($token->getUsername());
+	if($user) {
+	        $authenticatedToken = new GorgUserToken($user->getRoles());
+        	$authenticatedToken->setUser($user);
+		$authenticatedToken->setAuthenticated(true);
+	        return $authenticatedToken;
+	}
+
+        throw new AuthenticationException('The Cas authentication failed.');
     }
 
     public function supports(TokenInterface $token)

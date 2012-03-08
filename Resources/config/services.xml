@@ -14,7 +14,7 @@
    <services>
        <service id="gorg.security.authentication.provider"
          class="Gorg\Bundle\CasBundle\Security\Authentication\Provider\GorgProvider" public="false">
-           <argument type="service" id="security.authentication.provider" />
+           <argument />
            <argument>%kernel.cache_dir%/security/nonces</argument>
        </service>
 
